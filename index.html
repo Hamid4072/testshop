@@ -2,159 +2,634 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>فروشگاه حمید</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         :root {
-            --bg: var(--tg-theme-bg-color, #f3f4f6);
-            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
-            --text: var(--tg-theme-text-color, #1f2937);
-            --hint: var(--tg-theme-hint-color, #6b7280);
-            --btn: var(--tg-theme-button-color, #2563eb);
-            --btn-text: var(--tg-theme-button-text-color, #ffffff);
-            --price: #059669;
+            --bg: #f4f5fb;
+            --surface: #ffffff;
+            --surface-2: #eef0f8;
+            --text: #161a2d;
+            --muted: #6b7190;
+            --border: #e3e6f2;
+            --accent: #6d5efc;
+            --accent-2: #3ec6ff;
+            --accent-text: #ffffff;
+            --green: #12a66b;
+            --danger: #e5484d;
+            --shadow: 0 8px 24px rgba(40, 45, 100, 0.10);
+            --shadow-sm: 0 2px 8px rgba(40, 45, 100, 0.08);
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #0f1120;
+            --surface: #181b30;
+            --surface-2: #222642;
+            --text: #eef0ff;
+            --muted: #9aa0c4;
+            --border: #2a2e4d;
+            --green: #34d399;
+            --danger: #ff6b70;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
         }
 
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: Tahoma, sans-serif;
+            font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
-            margin: 0;
-            padding: 16px;
-        }
-
-        h1, h2, h3 {
-            color: var(--text);
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 0;
-        }
-
-        .products {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .product, .cart {
-            background: var(--card-bg);
-            padding: 16px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px #00000015;
-        }
-
-        .product {
-            flex: 1 1 200px;
-        }
-
-        .product p {
-            color: var(--hint);
-        }
-
-        .product .price,
-        .price {
-            color: var(--price);
-            font-weight: bold;
+            padding-bottom: 150px;
+            overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
         }
 
         button {
-            background: var(--btn);
-            color: var(--btn-text);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
             font-family: inherit;
+            cursor: pointer;
+            border: none;
         }
 
-        button:active {
-            opacity: 0.8;
+        /* ---------- هدر ---------- */
+        .hero {
+            position: relative;
+            padding: 36px 20px 64px;
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 120%);
+            color: #fff;
+            overflow: hidden;
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
         }
 
-        .cart {
-            margin-top: 24px;
-            margin-bottom: 70px;
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
         }
 
-        #cart-items {
-            line-height: 2;
-            padding-right: 20px;
+        .hero::before {
+            width: 220px;
+            height: 220px;
+            top: -80px;
+            left: -60px;
         }
 
-        #total {
+        .hero::after {
+            width: 160px;
+            height: 160px;
+            bottom: -70px;
+            right: -40px;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.22);
+            backdrop-filter: blur(6px);
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .hero p {
+            margin: 14px 0 0;
+            font-size: 14px;
+            line-height: 1.9;
+            opacity: 0.92;
+        }
+
+        /* ---------- ویژگی‌ها ---------- */
+        .perks {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: -36px 16px 0;
+        }
+
+        .perk {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 12px 6px;
+            text-align: center;
+            font-size: 11.5px;
+            color: var(--muted);
+            box-shadow: var(--shadow);
+        }
+
+        .perk span {
+            display: block;
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        /* ---------- محصولات ---------- */
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 28px 20px 14px;
+        }
+
+        .section-title h2 {
+            margin: 0;
             font-size: 18px;
+        }
+
+        .section-title small {
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            padding: 0 16px;
+        }
+
+        @media (min-width: 640px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 900px;
+                margin: 0 auto;
+            }
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(18px);
+            animation: rise 0.5s ease forwards;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .art {
+            position: relative;
+            height: 130px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .art::before {
+            content: "";
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .art .emoji {
+            position: relative;
+            font-size: 58px;
+            filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.25));
+            animation: float 3.2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #3b2fd1;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .info {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .info h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .info .desc {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--muted);
+            flex: 1;
+        }
+
+        .rating {
+            font-size: 12px;
+            color: #f59e0b;
+        }
+
+        .rating span {
+            color: var(--muted);
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--green);
+        }
+
+        .price small {
+            font-weight: normal;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .actions {
+            margin-top: 6px;
+            min-height: 42px;
+        }
+
+        .add-btn {
+            width: 100%;
+            height: 42px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: var(--accent-text);
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 6px 14px rgba(109, 94, 252, 0.35);
+            transition: transform 0.15s;
+        }
+
+        .add-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ---------- کنترل تعداد ---------- */
+        .stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-2);
+            border-radius: 14px;
+            padding: 4px;
+            height: 42px;
+        }
+
+        .stepper button {
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 18px;
+            line-height: 1;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.15s;
+        }
+
+        .stepper button:active {
+            transform: scale(0.9);
+        }
+
+        .stepper .qty {
+            font-weight: bold;
+            min-width: 28px;
+            text-align: center;
+        }
+
+        /* ---------- نوار سبد پایین صفحه ---------- */
+        .cart-bar {
+            position: fixed;
+            left: 14px;
+            right: 14px;
+            bottom: calc(14px + env(safe-area-inset-bottom));
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 20px;
+            background: var(--text);
+            color: var(--bg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(160%);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+        }
+
+        body.in-telegram .cart-bar {
+            bottom: calc(76px + env(safe-area-inset-bottom));
+        }
+
+        .cart-bar.visible {
+            transform: translateY(0);
+        }
+
+        .cart-bar .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-bar .count {
+            min-width: 30px;
+            height: 30px;
+            padding: 0 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 13px;
             font-weight: bold;
         }
 
-        #clear-cart {
-            background: transparent;
-            color: #dc2626;
-            border: 1px solid #dc2626;
+        .cart-bar .label {
+            font-size: 14px;
+            font-weight: bold;
+            background: none;
+            color: inherit;
+        }
+
+        .cart-bar .total {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* ---------- سبد خرید (Bottom Sheet) ---------- */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 30;
+            background: rgba(10, 12, 30, 0.55);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+
+        .overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 31;
+            max-height: 82vh;
+            overflow-y: auto;
+            background: var(--surface);
+            border-top-left-radius: 28px;
+            border-top-right-radius: 28px;
+            padding: 12px 18px calc(24px + env(safe-area-inset-bottom));
+            transform: translateY(105%);
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+
+        body.in-telegram .sheet {
+            padding-bottom: calc(90px + env(safe-area-inset-bottom));
+        }
+
+        .sheet.open {
+            transform: translateY(0);
+        }
+
+        .grabber {
+            width: 44px;
+            height: 5px;
+            border-radius: 999px;
+            background: var(--border);
+            margin: 0 auto 14px;
+        }
+
+        .sheet-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .sheet-head h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .clear-btn {
+            background: none;
+            color: var(--danger);
+            font-size: 13px;
+            padding: 6px 8px;
+        }
+
+        .empty {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 0;
+            font-size: 14px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .row .thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .row .meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .row .meta b {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .row .meta span {
+            font-size: 13px;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .row .stepper {
+            width: 112px;
+            flex-shrink: 0;
+        }
+
+        .summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0 6px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            height: 50px;
+            margin-top: 10px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 8px 18px rgba(109, 94, 252, 0.4);
+        }
+
+        body.in-telegram .checkout-btn {
+            display: none;
+        }
+
+        /* ---------- پیام کوتاه ---------- */
+        .toast {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            z-index: 50;
+            transform: translate(-50%, -140%);
+            background: var(--text);
+            color: var(--bg);
+            padding: 10px 18px;
+            border-radius: 999px;
+            font-size: 13px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            max-width: 90vw;
+            text-align: center;
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 32px;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>فروشگاه حمید</h1>
-    <h2>محصولات ما</h2>
-
-    <div class="products">
-
-        <div class="product">
-            <h3>هدفون بلوتوثی</h3>
-            <p>هدفون باکیفیت با صدای شفاف</p>
-            <p class="price">۱,۵۰۰,۰۰۰ تومان</p>
-            <button class="add-to-cart"
-                data-id="headphone" data-name="هدفون بلوتوثی" data-price="1500000">
-                افزودن به سبد
-            </button>
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="brand">
+                <div class="logo">🛍️</div>
+                <h1>فروشگاه حمید</h1>
+            </div>
+            <p>جدیدترین گجت‌های دیجیتال با ضمانت اصالت و ارسال سریع، مستقیم از داخل تلگرام.</p>
         </div>
+    </header>
 
-        <div class="product">
-            <h3>ساعت هوشمند</h3>
-            <p>مناسب استفاده روزانه</p>
-            <p class="price">۲,۲۰۰,۰۰۰ تومان</p>
-            <button class="add-to-cart"
-                data-id="watch" data-name="ساعت هوشمند" data-price="2200000">
-                افزودن به سبد
-            </button>
-        </div>
+    <section class="perks">
+        <div class="perk"><span>🚚</span>ارسال سریع</div>
+        <div class="perk"><span>✅</span>ضمانت اصالت</div>
+        <div class="perk"><span>💬</span>پشتیبانی</div>
+    </section>
 
-        <div class="product">
-            <h3>اسپیکر بلوتوثی</h3>
-            <p>صدای قدرتمند و قابل حمل</p>
-            <p class="price">۹۵۰,۰۰۰ تومان</p>
-            <button class="add-to-cart"
-                data-id="speaker" data-name="اسپیکر بلوتوثی" data-price="950000">
-                افزودن به سبد
-            </button>
-        </div>
-
+    <div class="section-title">
+        <h2>محصولات ویژه</h2>
+        <small id="products-count"></small>
     </div>
 
-    <div class="cart">
-        <h2>🛒 سبد خرید</h2>
+    <main class="grid" id="products"></main>
 
-        <p>تعداد محصولات انتخاب‌شده: <span id="count">۰</span></p>
+    <footer>ساخته‌شده با ❤️ توسط حمید</footer>
 
-        <ul id="cart-items">
-            <li>سبد خرید خالی است.</li>
-        </ul>
-
-        <p id="total">مبلغ کل: ۰ تومان</p>
-
-        <button id="clear-cart">خالی کردن سبد</button>
+    <!-- نوار سبد -->
+    <div class="cart-bar" id="cart-bar">
+        <div class="left">
+            <div class="count" id="bar-count">۰</div>
+            <button class="label" id="open-cart">مشاهده سبد خرید</button>
+        </div>
+        <div class="total" id="bar-total">۰ تومان</div>
     </div>
+
+    <!-- سبد کامل -->
+    <div class="overlay" id="overlay"></div>
+    <section class="sheet" id="sheet" aria-label="سبد خرید">
+        <div class="grabber"></div>
+        <div class="sheet-head">
+            <h2>🛒 سبد خرید</h2>
+            <button class="clear-btn" id="clear-cart">خالی کردن</button>
+        </div>
+        <div id="cart-items"></div>
+        <div class="summary">
+            <span>مبلغ کل</span>
+            <span id="sheet-total">۰ تومان</span>
+        </div>
+        <button class="checkout-btn" id="checkout">ثبت سفارش</button>
+    </section>
+
+    <div class="toast" id="toast"></div>
 
     <script>
         // ---------- تلگرام ----------
@@ -165,114 +640,298 @@
         if (inTelegram) {
             tg.ready();
             tg.expand();
+            document.body.classList.add("in-telegram");
         }
 
-        // ---------- سبد خرید ----------
-        const STORAGE_KEY = "hamid-shop-cart";
-        let cart = [];
+        // ---------- تم (روشن/تیره) ----------
+        function applyTheme() {
+            let scheme = "light";
+            if (inTelegram && tg.colorScheme) {
+                scheme = tg.colorScheme;
+            } else if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) {
+                scheme = "dark";
+            }
+            document.documentElement.setAttribute("data-theme", scheme);
+            if (inTelegram) {
+                try {
+                    const bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
+                    tg.setHeaderColor(bg);
+                    tg.setBackgroundColor(bg);
+                } catch (e) { /* نسخه قدیمی تلگرام */ }
+            }
+        }
+        applyTheme();
+        if (inTelegram) tg.onEvent("themeChanged", applyTheme);
 
-        const countElement = document.getElementById("count");
-        const itemsElement = document.getElementById("cart-items");
-        const totalElement = document.getElementById("total");
+        // ---------- داده محصولات ----------
+        // قیمت‌ها فقط برای نمایش هستند؛ ربات قیمت را خودش دوباره محاسبه می‌کند
+        const PRODUCTS = [
+            {
+                id: "headphone",
+                name: "هدفون بلوتوثی",
+                desc: "صدای شفاف و باس قوی، مناسب کار و سفر",
+                price: 1500000,
+                emoji: "🎧",
+                badge: "پرفروش",
+                rating: "۴٫۸",
+                votes: "۱۲۴",
+                grad: ["#6d5efc", "#a78bfa"]
+            },
+            {
+                id: "watch",
+                name: "ساعت هوشمند",
+                desc: "نمایشگر روشن، پایش فعالیت و اعلان‌ها",
+                price: 2200000,
+                emoji: "⌚",
+                badge: "جدید",
+                rating: "۴٫۶",
+                votes: "۸۷",
+                grad: ["#0ea5e9", "#38e1c9"]
+            },
+            {
+                id: "speaker",
+                name: "اسپیکر بلوتوثی",
+                desc: "قابل حمل، ضدآب و با صدای قدرتمند",
+                price: 950000,
+                emoji: "🔊",
+                badge: "محبوب",
+                rating: "۴٫۷",
+                votes: "۹۸",
+                grad: ["#f97316", "#fbbf24"]
+            }
+        ];
 
-        const formatPrice = number =>
-            number.toLocaleString("fa-IR");
+        const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+
+        // ---------- ابزارها ----------
+        const fa = n => n.toLocaleString("fa-IR");
+        const money = n => fa(n) + " تومان";
+        const $ = id => document.getElementById(id);
+
+        function el(tag, className, text) {
+            const node = document.createElement(tag);
+            if (className) node.className = className;
+            if (text !== undefined) node.textContent = text;
+            return node;
+        }
+
+        let toastTimer;
+        function toast(message) {
+            const t = $("toast");
+            t.textContent = message;
+            t.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove("show"), 1600);
+        }
+
+        function haptic(type) {
+            if (inTelegram && tg.HapticFeedback) {
+                try { tg.HapticFeedback.impactOccurred(type || "light"); } catch (e) {}
+            }
+        }
+
+        // ---------- وضعیت سبد ----------
+        const STORAGE_KEY = "hamid-shop-cart-v2";
+        let cart = {}; // { productId: quantity }
 
         function saveCart() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-            } catch (e) { /* ذخیره‌سازی در دسترس نیست */ }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); } catch (e) {}
         }
 
         function loadCart() {
             try {
                 const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-                if (Array.isArray(saved)) cart = saved;
-            } catch (e) { /* نادیده گرفتن */ }
+                if (saved && typeof saved === "object") {
+                    Object.keys(saved).forEach(id => {
+                        const q = Number(saved[id]);
+                        if (byId[id] && q > 0) cart[id] = Math.min(q, 20);
+                    });
+                }
+            } catch (e) {}
         }
 
-        function updateMainButton(total) {
-            if (!inTelegram) return;
+        function totals() {
+            let count = 0, total = 0;
+            Object.keys(cart).forEach(id => {
+                count += cart[id];
+                total += cart[id] * byId[id].price;
+            });
+            return { count, total };
+        }
 
-            if (cart.length > 0) {
-                tg.MainButton.setText("ثبت سفارش - " + formatPrice(total) + " تومان");
+        function changeQty(id, delta) {
+            const next = (cart[id] || 0) + delta;
+            if (next <= 0) {
+                delete cart[id];
+            } else {
+                cart[id] = Math.min(next, 20);
+            }
+            haptic("light");
+            updateUI();
+        }
+
+        // ---------- ساخت کنترل تعداد ----------
+        function makeStepper(id) {
+            const box = el("div", "stepper");
+            const plus = el("button", "", "+");
+            const qty = el("span", "qty", fa(cart[id] || 0));
+            const minus = el("button", "", "−");
+            plus.setAttribute("aria-label", "افزایش");
+            minus.setAttribute("aria-label", "کاهش");
+            plus.addEventListener("click", () => changeQty(id, 1));
+            minus.addEventListener("click", () => changeQty(id, -1));
+            box.append(plus, qty, minus);
+            return box;
+        }
+
+        // ---------- نمایش محصولات ----------
+        const actionBoxes = {};
+
+        function renderProducts() {
+            const grid = $("products");
+            PRODUCTS.forEach((p, i) => {
+                const card = el("article", "card");
+                card.style.animationDelay = (i * 90) + "ms";
+
+                const art = el("div", "art");
+                art.style.background = "linear-gradient(135deg, " + p.grad[0] + ", " + p.grad[1] + ")";
+                art.append(el("span", "emoji", p.emoji), el("span", "badge", p.badge));
+
+                const info = el("div", "info");
+                const rating = el("div", "rating", "★ " + p.rating + " ");
+                rating.append(el("span", "", "(" + p.votes + ")"));
+                const price = el("div", "price", fa(p.price) + " ");
+                price.append(el("small", "", "تومان"));
+                const actions = el("div", "actions");
+                actionBoxes[p.id] = actions;
+
+                info.append(el("h3", "", p.name), rating, el("p", "desc", p.desc), price, actions);
+                card.append(art, info);
+                grid.appendChild(card);
+            });
+            $("products-count").textContent = fa(PRODUCTS.length) + " کالا";
+        }
+
+        function renderActions() {
+            PRODUCTS.forEach(p => {
+                const box = actionBoxes[p.id];
+                box.replaceChildren();
+                if (cart[p.id]) {
+                    box.appendChild(makeStepper(p.id));
+                } else {
+                    const btn = el("button", "add-btn", "افزودن به سبد");
+                    btn.addEventListener("click", () => {
+                        changeQty(p.id, 1);
+                        toast(p.emoji + " " + p.name + " به سبد اضافه شد");
+                    });
+                    box.appendChild(btn);
+                }
+            });
+        }
+
+        // ---------- سبد کامل ----------
+        function renderSheet() {
+            const list = $("cart-items");
+            list.replaceChildren();
+            const ids = Object.keys(cart);
+
+            if (ids.length === 0) {
+                list.appendChild(el("div", "empty", "سبد خرید خالی است 🛒"));
+                return;
+            }
+
+            ids.forEach(id => {
+                const p = byId[id];
+                const row = el("div", "row");
+
+                const thumb = el("div", "thumb", p.emoji);
+                thumb.style.background = "linear-gradient(135deg, " + p.grad[0] + ", " + p.grad[1] + ")";
+
+                const meta = el("div", "meta");
+                meta.append(el("b", "", p.name), el("span", "", money(p.price * cart[id])));
+
+                row.append(thumb, meta, makeStepper(id));
+                list.appendChild(row);
+            });
+        }
+
+        // ---------- دکمه اصلی تلگرام ----------
+        function updateMainButton(count, total) {
+            if (!inTelegram) return;
+            if (count > 0) {
+                tg.MainButton.setText("ثبت سفارش - " + money(total));
                 tg.MainButton.show();
             } else {
                 tg.MainButton.hide();
             }
         }
 
-        function updateCart() {
-            countElement.textContent = formatPrice(cart.length);
-            itemsElement.replaceChildren();
+        // ---------- به‌روزرسانی کل رابط ----------
+        function updateUI() {
+            const { count, total } = totals();
 
-            if (cart.length === 0) {
-                const item = document.createElement("li");
-                item.textContent = "سبد خرید خالی است.";
-                itemsElement.appendChild(item);
-            }
+            $("bar-count").textContent = fa(count);
+            $("bar-total").textContent = money(total);
+            $("sheet-total").textContent = money(total);
+            $("cart-bar").classList.toggle("visible", count > 0);
 
-            cart.forEach(product => {
-                const item = document.createElement("li");
-                item.textContent =
-                    product.name + " - " +
-                    formatPrice(product.price) + " تومان";
-                itemsElement.appendChild(item);
-            });
-
-            const total = cart.reduce(
-                (sum, product) => sum + product.price, 0
-            );
-
-            totalElement.textContent =
-                "مبلغ کل: " + formatPrice(total) + " تومان";
-
-            updateMainButton(total);
+            renderActions();
+            renderSheet();
+            updateMainButton(count, total);
             saveCart();
+
+            if (count === 0) closeSheet();
         }
 
-        document.querySelectorAll(".add-to-cart").forEach(button => {
-            button.addEventListener("click", () => {
-                const id = button.dataset.id;
-                const name = button.dataset.name;
-                const price = Number(button.dataset.price);
+        // ---------- باز و بسته کردن سبد ----------
+        function openSheet() {
+            $("overlay").classList.add("open");
+            $("sheet").classList.add("open");
+        }
 
-                cart.push({ id, name, price });
-                updateCart();
+        function closeSheet() {
+            $("overlay").classList.remove("open");
+            $("sheet").classList.remove("open");
+        }
 
-                if (inTelegram) tg.HapticFeedback.impactOccurred("light");
-            });
+        $("open-cart").addEventListener("click", openSheet);
+        $("cart-bar").addEventListener("click", e => {
+            if (e.target.id !== "open-cart") openSheet();
         });
+        $("overlay").addEventListener("click", closeSheet);
 
-        document.getElementById("clear-cart")
-            .addEventListener("click", () => {
-                cart.length = 0;
-                updateCart();
-            });
+        $("clear-cart").addEventListener("click", () => {
+            cart = {};
+            haptic("medium");
+            updateUI();
+        });
 
         // ---------- ثبت سفارش ----------
         function submitOrder() {
-            if (cart.length === 0) return;
+            const items = [];
+            Object.keys(cart).forEach(id => {
+                for (let i = 0; i < cart[id]; i++) items.push(id);
+            });
+            if (items.length === 0) return;
 
             // فقط شناسه محصول‌ها ارسال می‌شود؛ قیمت را ربات خودش محاسبه می‌کند
-            const order = {
-                items: cart.map(p => p.id)
-            };
+            const order = { items };
 
             if (inTelegram) {
                 tg.sendData(JSON.stringify(order));
             } else {
-                alert("این صفحه خارج از تلگرام باز شده است.\n" + JSON.stringify(order));
+                console.log("سفارش:", order);
+                toast("این صفحه بیرون از تلگرام باز شده است");
             }
         }
 
-        if (inTelegram) {
-            tg.MainButton.onClick(submitOrder);
-        }
+        $("checkout").addEventListener("click", submitOrder);
+        if (inTelegram) tg.MainButton.onClick(submitOrder);
 
         // ---------- شروع ----------
         loadCart();
-        updateCart();
+        renderProducts();
+        updateUI();
     </script>
 
 </body>
