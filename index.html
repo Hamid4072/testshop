@@ -20,6 +20,7 @@
             --accent-text: #ffffff;
             --green: #12a66b;
             --danger: #e5484d;
+            --star: #f59e0b;
             --shadow: 0 8px 24px rgba(40, 45, 100, 0.10);
             --shadow-sm: 0 2px 8px rgba(40, 45, 100, 0.08);
         }
@@ -42,10 +43,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
+        html, body { margin: 0; padding: 0; }
 
         body {
             font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
@@ -56,16 +54,17 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        button {
+        button, input, select {
             font-family: inherit;
-            cursor: pointer;
-            border: none;
+            color: inherit;
         }
+
+        button { cursor: pointer; border: none; }
 
         /* ---------- هدر ---------- */
         .hero {
             position: relative;
-            padding: 36px 20px 64px;
+            padding: 30px 20px 58px;
             background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 50%, var(--accent-2) 120%);
             color: #fff;
             overflow: hidden;
@@ -73,105 +72,152 @@
             border-bottom-right-radius: 32px;
         }
 
-        .hero::before,
-        .hero::after {
+        .hero::before, .hero::after {
             content: "";
             position: absolute;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.12);
         }
+        .hero::before { width: 220px; height: 220px; top: -80px; left: -60px; }
+        .hero::after { width: 160px; height: 160px; bottom: -70px; right: -40px; }
 
-        .hero::before {
-            width: 220px;
-            height: 220px;
-            top: -80px;
-            left: -60px;
-        }
+        .hero-inner { position: relative; z-index: 1; }
 
-        .hero::after {
-            width: 160px;
-            height: 160px;
-            bottom: -70px;
-            right: -40px;
-        }
-
-        .hero-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .brand { display: flex; align-items: center; gap: 12px; }
 
         .logo {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(6px);
-            display: grid;
-            place-items: center;
+            display: grid; place-items: center;
             font-size: 26px;
         }
 
-        .hero h1 {
-            margin: 0;
-            font-size: 24px;
-        }
+        .hero h1 { margin: 0; font-size: 24px; }
 
         .hero p {
-            margin: 14px 0 0;
-            font-size: 14px;
+            margin: 12px 0 0;
+            font-size: 13.5px;
             line-height: 1.9;
             opacity: 0.92;
         }
 
+        /* ---------- جستجو ---------- */
+        .search-wrap {
+            position: relative;
+            z-index: 3;
+            margin: -28px 16px 0;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 0 14px;
+            height: 52px;
+            box-shadow: var(--shadow);
+        }
+
+        .search .icon { font-size: 18px; opacity: 0.7; }
+
+        .search input {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 15px;
+        }
+
+        .search input::placeholder { color: var(--muted); }
+
+        .search .clear {
+            background: var(--surface-2);
+            color: var(--muted);
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            font-size: 14px;
+            line-height: 1;
+            display: none;
+        }
+        .search .clear.show { display: block; }
+
         /* ---------- ویژگی‌ها ---------- */
         .perks {
-            position: relative;
-            z-index: 2;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin: -36px 16px 0;
+            margin: 16px 16px 0;
         }
 
         .perk {
             background: var(--surface);
             border-radius: 16px;
-            padding: 12px 6px;
+            padding: 10px 6px;
             text-align: center;
             font-size: 11.5px;
             color: var(--muted);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-sm);
+        }
+        .perk span { display: block; font-size: 20px; margin-bottom: 3px; }
+
+        /* ---------- دسته‌ها ---------- */
+        .chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 18px 16px 4px;
+            scrollbar-width: none;
+        }
+        .chips::-webkit-scrollbar { display: none; }
+
+        .chip {
+            flex-shrink: 0;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 13px;
+            box-shadow: var(--shadow-sm);
+            border: 1.5px solid transparent;
+            transition: all 0.2s;
         }
 
-        .perk span {
-            display: block;
-            font-size: 22px;
-            margin-bottom: 4px;
+        .chip.active {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 6px 14px rgba(109, 94, 252, 0.35);
         }
 
-        /* ---------- محصولات ---------- */
+        /* ---------- عنوان بخش + مرتب‌سازی ---------- */
         .section-title {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 28px 20px 14px;
+            gap: 10px;
+            margin: 16px 20px 12px;
         }
 
-        .section-title h2 {
-            margin: 0;
-            font-size: 18px;
+        .section-title h2 { margin: 0; font-size: 18px; }
+        .section-title small { color: var(--muted); font-size: 12px; }
+
+        .sort {
+            height: 34px;
+            padding: 0 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-size: 12.5px;
+            outline: none;
         }
 
-        .section-title small {
-            color: var(--muted);
-        }
-
+        /* ---------- محصولات ---------- */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -196,24 +242,17 @@
             flex-direction: column;
             opacity: 0;
             transform: translateY(18px);
-            animation: rise 0.5s ease forwards;
-            transition: transform 0.2s, box-shadow 0.2s;
+            animation: rise 0.45s ease forwards;
+            transition: transform 0.2s;
+            cursor: pointer;
         }
+        .card:active { transform: scale(0.98); }
 
-        .card:active {
-            transform: scale(0.98);
-        }
-
-        @keyframes rise {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes rise { to { opacity: 1; transform: translateY(0); } }
 
         .art {
             position: relative;
-            height: 130px;
+            height: 124px;
             display: grid;
             place-items: center;
             overflow: hidden;
@@ -222,15 +261,14 @@
         .art::before {
             content: "";
             position: absolute;
-            width: 110px;
-            height: 110px;
+            width: 104px; height: 104px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.28);
         }
 
         .art .emoji {
             position: relative;
-            font-size: 58px;
+            font-size: 54px;
             filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.25));
             animation: float 3.2s ease-in-out infinite;
         }
@@ -242,8 +280,7 @@
 
         .badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 10px; right: 10px;
             background: rgba(255, 255, 255, 0.92);
             color: #3b2fd1;
             font-size: 11px;
@@ -252,18 +289,30 @@
             border-radius: 999px;
         }
 
+        .heart {
+            position: absolute;
+            top: 8px; left: 8px;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            color: #9aa0c4;
+            font-size: 17px;
+            display: grid; place-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.15s;
+        }
+        .heart:active { transform: scale(0.85); }
+        .heart.on { color: var(--danger); }
+
         .info {
-            padding: 14px;
+            padding: 12px 14px 14px;
             display: flex;
             flex-direction: column;
             gap: 6px;
             flex: 1;
         }
 
-        .info h3 {
-            margin: 0;
-            font-size: 15px;
-        }
+        .info h3 { margin: 0; font-size: 14.5px; }
 
         .info .desc {
             margin: 0;
@@ -273,31 +322,13 @@
             flex: 1;
         }
 
-        .rating {
-            font-size: 12px;
-            color: #f59e0b;
-        }
+        .rating { font-size: 12px; color: var(--star); }
+        .rating span { color: var(--muted); }
 
-        .rating span {
-            color: var(--muted);
-        }
+        .price { font-weight: bold; font-size: 15px; color: var(--green); }
+        .price small { font-weight: normal; font-size: 11px; color: var(--muted); }
 
-        .price {
-            font-weight: bold;
-            font-size: 15px;
-            color: var(--green);
-        }
-
-        .price small {
-            font-weight: normal;
-            font-size: 11px;
-            color: var(--muted);
-        }
-
-        .actions {
-            margin-top: 6px;
-            min-height: 42px;
-        }
+        .actions { margin-top: 6px; min-height: 42px; }
 
         .add-btn {
             width: 100%;
@@ -310,9 +341,26 @@
             box-shadow: 0 6px 14px rgba(109, 94, 252, 0.35);
             transition: transform 0.15s;
         }
+        .add-btn:active { transform: scale(0.96); }
 
-        .add-btn:active {
-            transform: scale(0.96);
+        /* ---------- حالت خالی ---------- */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 44px 20px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 2;
+        }
+        .no-results .big { font-size: 48px; display: block; margin-bottom: 6px; }
+        .no-results button {
+            margin-top: 10px;
+            height: 38px;
+            padding: 0 18px;
+            border-radius: 12px;
+            background: var(--surface-2);
+            color: var(--text);
+            font-size: 13px;
         }
 
         /* ---------- کنترل تعداد ---------- */
@@ -327,8 +375,7 @@
         }
 
         .stepper button {
-            width: 34px;
-            height: 34px;
+            width: 34px; height: 34px;
             border-radius: 11px;
             background: var(--surface);
             color: var(--text);
@@ -337,22 +384,13 @@
             box-shadow: var(--shadow-sm);
             transition: transform 0.15s;
         }
+        .stepper button:active { transform: scale(0.9); }
+        .stepper .qty { font-weight: bold; min-width: 28px; text-align: center; }
 
-        .stepper button:active {
-            transform: scale(0.9);
-        }
-
-        .stepper .qty {
-            font-weight: bold;
-            min-width: 28px;
-            text-align: center;
-        }
-
-        /* ---------- نوار سبد پایین صفحه ---------- */
+        /* ---------- نوار سبد ---------- */
         .cart-bar {
             position: fixed;
-            left: 14px;
-            right: 14px;
+            left: 14px; right: 14px;
             bottom: calc(14px + env(safe-area-inset-bottom));
             z-index: 20;
             display: flex;
@@ -368,29 +406,18 @@
             transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
         }
 
-        body.in-telegram .cart-bar {
-            bottom: calc(76px + env(safe-area-inset-bottom));
-        }
+        body.in-telegram .cart-bar { bottom: calc(76px + env(safe-area-inset-bottom)); }
+        .cart-bar.visible { transform: translateY(0); }
 
-        .cart-bar.visible {
-            transform: translateY(0);
-        }
-
-        .cart-bar .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .cart-bar .left { display: flex; align-items: center; gap: 10px; }
 
         .cart-bar .count {
-            min-width: 30px;
-            height: 30px;
+            min-width: 30px; height: 30px;
             padding: 0 8px;
             border-radius: 999px;
             background: var(--accent);
             color: #fff;
-            display: grid;
-            place-items: center;
+            display: grid; place-items: center;
             font-size: 13px;
             font-weight: bold;
         }
@@ -402,12 +429,9 @@
             color: inherit;
         }
 
-        .cart-bar .total {
-            font-size: 14px;
-            font-weight: bold;
-        }
+        .cart-bar .total { font-size: 14px; font-weight: bold; }
 
-        /* ---------- سبد خرید (Bottom Sheet) ---------- */
+        /* ---------- پنل‌های پایین (سبد و جزئیات) ---------- */
         .overlay {
             position: fixed;
             inset: 0;
@@ -417,19 +441,13 @@
             pointer-events: none;
             transition: opacity 0.25s;
         }
-
-        .overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .overlay.open { opacity: 1; pointer-events: auto; }
 
         .sheet {
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            left: 0; right: 0; bottom: 0;
             z-index: 31;
-            max-height: 82vh;
+            max-height: 86vh;
             overflow-y: auto;
             background: var(--surface);
             border-top-left-radius: 28px;
@@ -438,18 +456,11 @@
             transform: translateY(105%);
             transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
-
-        body.in-telegram .sheet {
-            padding-bottom: calc(90px + env(safe-area-inset-bottom));
-        }
-
-        .sheet.open {
-            transform: translateY(0);
-        }
+        body.in-telegram .sheet { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+        .sheet.open { transform: translateY(0); }
 
         .grabber {
-            width: 44px;
-            height: 5px;
+            width: 44px; height: 5px;
             border-radius: 999px;
             background: var(--border);
             margin: 0 auto 14px;
@@ -461,11 +472,7 @@
             justify-content: space-between;
             margin-bottom: 10px;
         }
-
-        .sheet-head h2 {
-            margin: 0;
-            font-size: 18px;
-        }
+        .sheet-head h2 { margin: 0; font-size: 18px; }
 
         .clear-btn {
             background: none;
@@ -490,36 +497,17 @@
         }
 
         .row .thumb {
-            width: 52px;
-            height: 52px;
+            width: 52px; height: 52px;
             border-radius: 16px;
-            display: grid;
-            place-items: center;
+            display: grid; place-items: center;
             font-size: 28px;
             flex-shrink: 0;
         }
 
-        .row .meta {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .row .meta b {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .row .meta span {
-            font-size: 13px;
-            color: var(--green);
-            font-weight: bold;
-        }
-
-        .row .stepper {
-            width: 112px;
-            flex-shrink: 0;
-        }
+        .row .meta { flex: 1; min-width: 0; }
+        .row .meta b { display: block; font-size: 14px; margin-bottom: 4px; }
+        .row .meta span { font-size: 13px; color: var(--green); font-weight: bold; }
+        .row .stepper { width: 112px; flex-shrink: 0; }
 
         .summary {
             display: flex;
@@ -541,16 +529,77 @@
             font-weight: bold;
             box-shadow: 0 8px 18px rgba(109, 94, 252, 0.4);
         }
+        body.in-telegram .checkout-btn { display: none; }
 
-        body.in-telegram .checkout-btn {
-            display: none;
+        /* ---------- جزئیات محصول ---------- */
+        .d-art {
+            position: relative;
+            height: 190px;
+            border-radius: 22px;
+            display: grid; place-items: center;
+            overflow: hidden;
+            margin-bottom: 14px;
         }
+
+        .d-art::before {
+            content: "";
+            position: absolute;
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .d-art .emoji {
+            position: relative;
+            font-size: 84px;
+            filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.28));
+            animation: float 3.2s ease-in-out infinite;
+        }
+
+        .d-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .d-top h2 { margin: 0 0 4px; font-size: 20px; }
+
+        .d-fav {
+            width: 42px; height: 42px;
+            border-radius: 14px;
+            background: var(--surface-2);
+            color: var(--muted);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .d-fav.on { color: var(--danger); }
+
+        .d-desc {
+            font-size: 13.5px;
+            line-height: 1.9;
+            color: var(--muted);
+            margin: 10px 0;
+        }
+
+        .features {
+            list-style: none;
+            margin: 0 0 14px;
+            padding: 12px 14px;
+            background: var(--surface-2);
+            border-radius: 16px;
+            display: grid;
+            gap: 8px;
+            font-size: 13px;
+        }
+        .features li::before { content: "✓"; color: var(--green); font-weight: bold; margin-left: 8px; }
+
+        .d-price { font-size: 20px; font-weight: bold; color: var(--green); margin-bottom: 12px; }
+        .d-price small { font-size: 12px; font-weight: normal; color: var(--muted); }
 
         /* ---------- پیام کوتاه ---------- */
         .toast {
             position: fixed;
-            top: 16px;
-            left: 50%;
+            top: 16px; left: 50%;
             z-index: 50;
             transform: translate(-50%, -140%);
             background: var(--text);
@@ -563,10 +612,7 @@
             max-width: 90vw;
             text-align: center;
         }
-
-        .toast.show {
-            transform: translate(-50%, 0);
-        }
+        .toast.show { transform: translate(-50%, 0); }
 
         footer {
             text-align: center;
@@ -589,15 +635,33 @@
         </div>
     </header>
 
+    <div class="search-wrap">
+        <label class="search">
+            <span class="icon">🔍</span>
+            <input id="search" type="search" placeholder="جستجوی محصول…" autocomplete="off" enterkeyhint="search">
+            <button class="clear" id="search-clear" type="button" aria-label="پاک کردن">✕</button>
+        </label>
+    </div>
+
     <section class="perks">
         <div class="perk"><span>🚚</span>ارسال سریع</div>
         <div class="perk"><span>✅</span>ضمانت اصالت</div>
         <div class="perk"><span>💬</span>پشتیبانی</div>
     </section>
 
+    <nav class="chips" id="chips" aria-label="دسته‌بندی"></nav>
+
     <div class="section-title">
-        <h2>محصولات ویژه</h2>
-        <small id="products-count"></small>
+        <div>
+            <h2 id="list-title">محصولات ویژه</h2>
+            <small id="products-count"></small>
+        </div>
+        <select class="sort" id="sort" aria-label="مرتب‌سازی">
+            <option value="default">مرتب‌سازی: پیش‌فرض</option>
+            <option value="cheap">ارزان‌ترین</option>
+            <option value="expensive">گران‌ترین</option>
+            <option value="rating">بالاترین امتیاز</option>
+        </select>
     </div>
 
     <main class="grid" id="products"></main>
@@ -613,9 +677,10 @@
         <div class="total" id="bar-total">۰ تومان</div>
     </div>
 
-    <!-- سبد کامل -->
     <div class="overlay" id="overlay"></div>
-    <section class="sheet" id="sheet" aria-label="سبد خرید">
+
+    <!-- سبد کامل -->
+    <section class="sheet" id="cart-sheet" aria-label="سبد خرید">
         <div class="grabber"></div>
         <div class="sheet-head">
             <h2>🛒 سبد خرید</h2>
@@ -627,6 +692,12 @@
             <span id="sheet-total">۰ تومان</span>
         </div>
         <button class="checkout-btn" id="checkout">ثبت سفارش</button>
+    </section>
+
+    <!-- جزئیات محصول -->
+    <section class="sheet" id="detail-sheet" aria-label="جزئیات محصول">
+        <div class="grabber"></div>
+        <div id="detail-body"></div>
     </section>
 
     <div class="toast" id="toast"></div>
@@ -663,48 +734,98 @@
         applyTheme();
         if (inTelegram) tg.onEvent("themeChanged", applyTheme);
 
+        // ---------- دسته‌بندی‌ها ----------
+        const CATEGORIES = [
+            { id: "all", label: "همه" },
+            { id: "audio", label: "🎧 صوتی" },
+            { id: "wearable", label: "⌚ پوشیدنی" },
+            { id: "accessory", label: "🔌 لوازم جانبی" },
+            { id: "computer", label: "💻 کامپیوتر" }
+        ];
+
         // ---------- داده محصولات ----------
         // قیمت‌ها فقط برای نمایش هستند؛ ربات قیمت را خودش دوباره محاسبه می‌کند
+        // نکته: شناسه (id) هر محصول جدید باید در دیکشنری محصولات ربات هم تعریف شود
         const PRODUCTS = [
             {
-                id: "headphone",
+                id: "headphone", cat: "audio",
                 name: "هدفون بلوتوثی",
                 desc: "صدای شفاف و باس قوی، مناسب کار و سفر",
-                price: 1500000,
-                emoji: "🎧",
-                badge: "پرفروش",
-                rating: "۴٫۸",
-                votes: "۱۲۴",
-                grad: ["#6d5efc", "#a78bfa"]
+                features: ["بلوتوث ۵٫۳ با اتصال پایدار", "تا ۳۰ ساعت پخش پیوسته", "میکروفون داخلی برای مکالمه"],
+                price: 1500000, emoji: "🎧", badge: "پرفروش",
+                rating: 4.8, votes: 124, grad: ["#6d5efc", "#a78bfa"]
             },
             {
-                id: "watch",
+                id: "watch", cat: "wearable",
                 name: "ساعت هوشمند",
                 desc: "نمایشگر روشن، پایش فعالیت و اعلان‌ها",
-                price: 2200000,
-                emoji: "⌚",
-                badge: "جدید",
-                rating: "۴٫۶",
-                votes: "۸۷",
-                grad: ["#0ea5e9", "#38e1c9"]
+                features: ["نمایشگر AMOLED", "پایش ضربان قلب و خواب", "مقاوم در برابر آب"],
+                price: 2200000, emoji: "⌚", badge: "جدید",
+                rating: 4.6, votes: 87, grad: ["#0ea5e9", "#38e1c9"]
             },
             {
-                id: "speaker",
+                id: "speaker", cat: "audio",
                 name: "اسپیکر بلوتوثی",
                 desc: "قابل حمل، ضدآب و با صدای قدرتمند",
-                price: 950000,
-                emoji: "🔊",
-                badge: "محبوب",
-                rating: "۴٫۷",
-                votes: "۹۸",
-                grad: ["#f97316", "#fbbf24"]
+                features: ["گواهی ضدآب IPX7", "تا ۱۲ ساعت شارژدهی", "قابلیت اتصال دو اسپیکر"],
+                price: 950000, emoji: "🔊", badge: "محبوب",
+                rating: 4.7, votes: 98, grad: ["#f97316", "#fbbf24"]
+            },
+            {
+                id: "earbuds", cat: "audio",
+                name: "ایرباد بی‌سیم",
+                desc: "کوچک و سبک با کیس شارژ همراه",
+                features: ["حذف نویز محیط", "کیس شارژ با ۴ بار شارژ کامل", "کنترل لمسی"],
+                price: 1100000, emoji: "🎶", badge: "تخفیف‌دار",
+                rating: 4.5, votes: 156, grad: ["#ec4899", "#f9a8d4"]
+            },
+            {
+                id: "powerbank", cat: "accessory",
+                name: "پاوربانک ۲۰ هزار",
+                desc: "ظرفیت بالا با شارژ سریع برای چند بار شارژ موبایل",
+                features: ["ظرفیت ۲۰۰۰۰ میلی‌آمپرساعت", "دو خروجی USB و یک Type-C", "نمایشگر درصد شارژ"],
+                price: 780000, emoji: "🔋", badge: "پرکاربرد",
+                rating: 4.6, votes: 203, grad: ["#16a34a", "#86efac"]
+            },
+            {
+                id: "charger", cat: "accessory",
+                name: "شارژر سریع ۶۵ وات",
+                desc: "شارژ سریع موبایل، تبلت و حتی لپ‌تاپ",
+                features: ["فناوری GaN کوچک و خنک", "دو پورت Type-C و USB", "محافظ برابر اضافه‌ولتاژ"],
+                price: 540000, emoji: "⚡", badge: "اقتصادی",
+                rating: 4.4, votes: 71, grad: ["#eab308", "#fde047"]
+            },
+            {
+                id: "keyboard", cat: "computer",
+                name: "کیبورد مکانیکی",
+                desc: "حس تایپ عالی با نورپردازی RGB",
+                features: ["سوییچ‌های قابل تعویض", "نورپردازی RGB قابل تنظیم", "اتصال بی‌سیم و سیمی"],
+                price: 1850000, emoji: "⌨️", badge: "ویژه",
+                rating: 4.9, votes: 64, grad: ["#4f46e5", "#818cf8"]
+            },
+            {
+                id: "mouse", cat: "computer",
+                name: "ماوس بی‌سیم",
+                desc: "دقیق، بی‌صدا و مناسب کار روزانه",
+                features: ["سنسور ۴۰۰۰ DPI", "کلیک بی‌صدا", "باتری تا ۶ ماه"],
+                price: 420000, emoji: "🖱️", badge: "اقتصادی",
+                rating: 4.3, votes: 112, grad: ["#0891b2", "#67e8f9"]
+            },
+            {
+                id: "webcam", cat: "computer",
+                name: "وب‌کم Full HD",
+                desc: "تصویر شفاف برای جلسات آنلاین و استریم",
+                features: ["رزولوشن ۱۰۸۰p با ۳۰ فریم", "میکروفون دوکاناله", "نصب آسان بدون درایور"],
+                price: 890000, emoji: "📷", badge: "جدید",
+                rating: 4.5, votes: 49, grad: ["#dc2626", "#fca5a5"]
             }
         ];
 
         const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
 
         // ---------- ابزارها ----------
-        const fa = n => n.toLocaleString("fa-IR");
+        const fa = n => Number(n).toLocaleString("fa-IR");
+        const faRating = n => Number(n).toLocaleString("fa-IR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         const money = n => fa(n) + " تومان";
         const $ = id => document.getElementById(id);
 
@@ -713,6 +834,18 @@
             if (className) node.className = className;
             if (text !== undefined) node.textContent = text;
             return node;
+        }
+
+        // یکسان‌سازی حروف و ارقام برای جستجو
+        function normalize(s) {
+            return String(s)
+                .replace(/ي/g, "ی")
+                .replace(/ك/g, "ک")
+                .replace(/[۰-۹]/g, d => String(d.charCodeAt(0) - 0x06F0))
+                .replace(/[٠-٩]/g, d => String(d.charCodeAt(0) - 0x0660))
+                .replace(/‌/g, " ")
+                .toLowerCase()
+                .trim();
         }
 
         let toastTimer;
@@ -730,21 +863,35 @@
             }
         }
 
-        // ---------- وضعیت سبد ----------
-        const STORAGE_KEY = "hamid-shop-cart-v2";
-        let cart = {}; // { productId: quantity }
+        // ---------- وضعیت سبد و علاقه‌مندی‌ها ----------
+        const CART_KEY = "hamid-shop-cart-v3";
+        const FAV_KEY = "hamid-shop-favs-v1";
+        let cart = {};   // { productId: quantity }
+        let favs = {};   // { productId: true }
 
         function saveCart() {
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); } catch (e) {}
+            try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
         }
 
-        function loadCart() {
+        function saveFavs() {
+            try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) {}
+        }
+
+        function loadStored() {
             try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                const saved = JSON.parse(localStorage.getItem(CART_KEY));
                 if (saved && typeof saved === "object") {
                     Object.keys(saved).forEach(id => {
                         const q = Number(saved[id]);
                         if (byId[id] && q > 0) cart[id] = Math.min(q, 20);
+                    });
+                }
+            } catch (e) {}
+            try {
+                const saved = JSON.parse(localStorage.getItem(FAV_KEY));
+                if (saved && typeof saved === "object") {
+                    Object.keys(saved).forEach(id => {
+                        if (byId[id] && saved[id]) favs[id] = true;
                     });
                 }
             } catch (e) {}
@@ -770,63 +917,228 @@
             updateUI();
         }
 
+        function toggleFav(id) {
+            if (favs[id]) {
+                delete favs[id];
+                toast("از علاقه‌مندی‌ها حذف شد");
+            } else {
+                favs[id] = true;
+                toast("❤️ به علاقه‌مندی‌ها اضافه شد");
+            }
+            haptic("light");
+            saveFavs();
+            updateFavUI();
+            // اگر در حالت «علاقه‌مندی‌ها» هستیم لیست باید دوباره ساخته شود
+            if (filter.favOnly) renderProducts();
+        }
+
+        // ---------- فیلترها ----------
+        const filter = { cat: "all", q: "", sort: "default", favOnly: false };
+
+        function visibleProducts() {
+            const q = normalize(filter.q);
+            let list = PRODUCTS.filter(p => {
+                if (filter.favOnly && !favs[p.id]) return false;
+                if (filter.cat !== "all" && p.cat !== filter.cat) return false;
+                if (q && !normalize(p.name + " " + p.desc).includes(q)) return false;
+                return true;
+            });
+
+            if (filter.sort === "cheap") list = list.slice().sort((a, b) => a.price - b.price);
+            if (filter.sort === "expensive") list = list.slice().sort((a, b) => b.price - a.price);
+            if (filter.sort === "rating") list = list.slice().sort((a, b) => b.rating - a.rating);
+            return list;
+        }
+
+        function renderChips() {
+            const box = $("chips");
+            box.replaceChildren();
+            CATEGORIES.forEach(c => {
+                const b = el("button", "chip" + (!filter.favOnly && filter.cat === c.id ? " active" : ""), c.label);
+                b.type = "button";
+                b.addEventListener("click", () => {
+                    filter.cat = c.id;
+                    filter.favOnly = false;
+                    haptic("light");
+                    renderChips();
+                    renderProducts();
+                });
+                box.appendChild(b);
+            });
+            const fav = el("button", "chip" + (filter.favOnly ? " active" : ""), "❤️ علاقه‌مندی‌ها");
+            fav.type = "button";
+            fav.addEventListener("click", () => {
+                filter.favOnly = !filter.favOnly;
+                haptic("light");
+                renderChips();
+                renderProducts();
+            });
+            box.appendChild(fav);
+        }
+
         // ---------- ساخت کنترل تعداد ----------
         function makeStepper(id) {
             const box = el("div", "stepper");
             const plus = el("button", "", "+");
             const qty = el("span", "qty", fa(cart[id] || 0));
             const minus = el("button", "", "−");
+            plus.type = minus.type = "button";
             plus.setAttribute("aria-label", "افزایش");
             minus.setAttribute("aria-label", "کاهش");
-            plus.addEventListener("click", () => changeQty(id, 1));
-            minus.addEventListener("click", () => changeQty(id, -1));
+            plus.addEventListener("click", e => { e.stopPropagation(); changeQty(id, 1); });
+            minus.addEventListener("click", e => { e.stopPropagation(); changeQty(id, -1); });
             box.append(plus, qty, minus);
             return box;
         }
 
+        // دکمه «افزودن» یا کنترل تعداد، بسته به وضعیت سبد
+        function fillActions(box, p) {
+            box.replaceChildren();
+            if (cart[p.id]) {
+                box.appendChild(makeStepper(p.id));
+            } else {
+                const btn = el("button", "add-btn", "افزودن به سبد");
+                btn.type = "button";
+                btn.addEventListener("click", e => {
+                    e.stopPropagation();
+                    changeQty(p.id, 1);
+                    toast(p.emoji + " " + p.name + " به سبد اضافه شد");
+                });
+                box.appendChild(btn);
+            }
+        }
+
         // ---------- نمایش محصولات ----------
-        const actionBoxes = {};
+        let actionBoxes = {};
+        let heartBtns = {};
 
         function renderProducts() {
             const grid = $("products");
-            PRODUCTS.forEach((p, i) => {
+            grid.replaceChildren();
+            actionBoxes = {};
+            heartBtns = {};
+
+            const list = visibleProducts();
+
+            $("list-title").textContent = filter.favOnly ? "علاقه‌مندی‌های من" : "محصولات ویژه";
+            $("products-count").textContent = fa(list.length) + " کالا";
+
+            if (list.length === 0) {
+                const box = el("div", "no-results");
+                const msg = filter.favOnly && !filter.q && filter.cat === "all"
+                    ? "هنوز محصولی را به علاقه‌مندی‌ها اضافه نکرده‌ای. روی ❤️ کنار هر محصول بزن."
+                    : "محصولی با این مشخصات پیدا نشد.";
+                box.append(el("span", "big", "🔎"), el("div", "", msg));
+                const reset = el("button", "", "پاک کردن فیلترها");
+                reset.type = "button";
+                reset.addEventListener("click", resetFilters);
+                box.appendChild(reset);
+                grid.appendChild(box);
+                return;
+            }
+
+            list.forEach((p, i) => {
                 const card = el("article", "card");
-                card.style.animationDelay = (i * 90) + "ms";
+                card.style.animationDelay = Math.min(i, 8) * 60 + "ms";
+                card.addEventListener("click", () => openDetail(p.id));
 
                 const art = el("div", "art");
                 art.style.background = "linear-gradient(135deg, " + p.grad[0] + ", " + p.grad[1] + ")";
-                art.append(el("span", "emoji", p.emoji), el("span", "badge", p.badge));
+
+                const heart = el("button", "heart", "♥");
+                heart.type = "button";
+                heart.setAttribute("aria-label", "علاقه‌مندی");
+                heart.addEventListener("click", e => { e.stopPropagation(); toggleFav(p.id); });
+                heartBtns[p.id] = heart;
+
+                art.append(el("span", "emoji", p.emoji), el("span", "badge", p.badge), heart);
 
                 const info = el("div", "info");
-                const rating = el("div", "rating", "★ " + p.rating + " ");
-                rating.append(el("span", "", "(" + p.votes + ")"));
+                const rating = el("div", "rating", "★ " + faRating(p.rating) + " ");
+                rating.append(el("span", "", "(" + fa(p.votes) + ")"));
                 const price = el("div", "price", fa(p.price) + " ");
                 price.append(el("small", "", "تومان"));
                 const actions = el("div", "actions");
                 actionBoxes[p.id] = actions;
+                fillActions(actions, p);
 
                 info.append(el("h3", "", p.name), rating, el("p", "desc", p.desc), price, actions);
                 card.append(art, info);
                 grid.appendChild(card);
             });
-            $("products-count").textContent = fa(PRODUCTS.length) + " کالا";
+
+            updateFavUI();
         }
 
         function renderActions() {
             PRODUCTS.forEach(p => {
                 const box = actionBoxes[p.id];
-                box.replaceChildren();
-                if (cart[p.id]) {
-                    box.appendChild(makeStepper(p.id));
-                } else {
-                    const btn = el("button", "add-btn", "افزودن به سبد");
-                    btn.addEventListener("click", () => {
-                        changeQty(p.id, 1);
-                        toast(p.emoji + " " + p.name + " به سبد اضافه شد");
-                    });
-                    box.appendChild(btn);
-                }
+                if (box) fillActions(box, p);
             });
+        }
+
+        function updateFavUI() {
+            Object.keys(heartBtns).forEach(id => {
+                heartBtns[id].classList.toggle("on", !!favs[id]);
+            });
+            if (detailId) {
+                const b = document.querySelector("#detail-body .d-fav");
+                if (b) b.classList.toggle("on", !!favs[detailId]);
+            }
+        }
+
+        function resetFilters() {
+            filter.cat = "all";
+            filter.q = "";
+            filter.favOnly = false;
+            $("search").value = "";
+            $("search-clear").classList.remove("show");
+            renderChips();
+            renderProducts();
+        }
+
+        // ---------- جزئیات محصول ----------
+        let detailId = null;
+
+        function renderDetail(id) {
+            const p = byId[id];
+            const body = $("detail-body");
+            body.replaceChildren();
+
+            const art = el("div", "d-art");
+            art.style.background = "linear-gradient(135deg, " + p.grad[0] + ", " + p.grad[1] + ")";
+            art.append(el("span", "emoji", p.emoji), el("span", "badge", p.badge));
+
+            const top = el("div", "d-top");
+            const titleBox = el("div");
+            const rating = el("div", "rating", "★ " + faRating(p.rating) + " ");
+            rating.append(el("span", "", "(" + fa(p.votes) + " نظر)"));
+            titleBox.append(el("h2", "", p.name), rating);
+
+            const fav = el("button", "d-fav" + (favs[id] ? " on" : ""), "♥");
+            fav.type = "button";
+            fav.setAttribute("aria-label", "علاقه‌مندی");
+            fav.addEventListener("click", () => toggleFav(id));
+            top.append(titleBox, fav);
+
+            const features = el("ul", "features");
+            p.features.forEach(f => features.appendChild(el("li", "", f)));
+
+            const price = el("div", "d-price", fa(p.price) + " ");
+            price.append(el("small", "", "تومان"));
+
+            const actions = el("div", "actions");
+            actions.id = "detail-actions";
+            fillActions(actions, p);
+
+            body.append(art, top, el("p", "d-desc", p.desc), features, price, actions);
+        }
+
+        function openDetail(id) {
+            detailId = id;
+            renderDetail(id);
+            openSheet("detail-sheet");
+            haptic("light");
         }
 
         // ---------- سبد کامل ----------
@@ -877,33 +1189,70 @@
 
             renderActions();
             renderSheet();
+            if (detailId) fillActions($("detail-actions"), byId[detailId]);
             updateMainButton(count, total);
             saveCart();
 
-            if (count === 0) closeSheet();
+            if (count === 0 && $("cart-sheet").classList.contains("open")) closeSheets();
         }
 
-        // ---------- باز و بسته کردن سبد ----------
-        function openSheet() {
+        // ---------- باز و بسته کردن پنل‌ها ----------
+        function openSheet(sheetId) {
+            document.querySelectorAll(".sheet").forEach(s => s.classList.toggle("open", s.id === sheetId));
             $("overlay").classList.add("open");
-            $("sheet").classList.add("open");
+            if (inTelegram) {
+                try { tg.BackButton.show(); } catch (e) {}
+            }
         }
 
-        function closeSheet() {
+        function closeSheets() {
+            document.querySelectorAll(".sheet").forEach(s => s.classList.remove("open"));
             $("overlay").classList.remove("open");
-            $("sheet").classList.remove("open");
+            detailId = null;
+            if (inTelegram) {
+                try { tg.BackButton.hide(); } catch (e) {}
+            }
         }
 
-        $("open-cart").addEventListener("click", openSheet);
+        if (inTelegram) {
+            try { tg.BackButton.onClick(closeSheets); } catch (e) {}
+        }
+
+        $("open-cart").addEventListener("click", () => openSheet("cart-sheet"));
         $("cart-bar").addEventListener("click", e => {
-            if (e.target.id !== "open-cart") openSheet();
+            if (e.target.id !== "open-cart") openSheet("cart-sheet");
         });
-        $("overlay").addEventListener("click", closeSheet);
+        $("overlay").addEventListener("click", closeSheets);
 
         $("clear-cart").addEventListener("click", () => {
             cart = {};
             haptic("medium");
             updateUI();
+        });
+
+        // ---------- جستجو و مرتب‌سازی ----------
+        let searchTimer;
+        $("search").addEventListener("input", e => {
+            const value = e.target.value;
+            $("search-clear").classList.toggle("show", value.length > 0);
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                filter.q = value;
+                renderProducts();
+            }, 180);
+        });
+
+        $("search-clear").addEventListener("click", () => {
+            $("search").value = "";
+            $("search-clear").classList.remove("show");
+            filter.q = "";
+            renderProducts();
+            $("search").focus();
+        });
+
+        $("sort").addEventListener("change", e => {
+            filter.sort = e.target.value;
+            renderProducts();
         });
 
         // ---------- ثبت سفارش ----------
@@ -929,7 +1278,8 @@
         if (inTelegram) tg.MainButton.onClick(submitOrder);
 
         // ---------- شروع ----------
-        loadCart();
+        loadStored();
+        renderChips();
         renderProducts();
         updateUI();
     </script>
