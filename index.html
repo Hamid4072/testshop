@@ -158,13 +158,90 @@
             margin-bottom: 4px;
         }
 
+        /* ---------- جستجو، مرتب‌سازی، دسته‌ها ---------- */
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin: 20px 16px 0;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 46px;
+            padding: 0 12px;
+            background: var(--surface);
+            border-radius: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .search input::placeholder {
+            color: var(--muted);
+        }
+
+        .sort {
+            height: 46px;
+            border: none;
+            border-radius: 14px;
+            background: var(--surface);
+            color: var(--text);
+            padding: 0 10px;
+            font-family: inherit;
+            font-size: 13px;
+            box-shadow: var(--shadow-sm);
+            outline: none;
+        }
+
+        .chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 14px 16px 2px;
+            scrollbar-width: none;
+        }
+
+        .chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            flex-shrink: 0;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 13px;
+            box-shadow: var(--shadow-sm);
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .chip.active {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: #fff;
+        }
+
         /* ---------- محصولات ---------- */
 
         .section-title {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin: 28px 20px 14px;
+            margin: 22px 20px 14px;
         }
 
         .section-title h2 {
@@ -191,6 +268,14 @@
             }
         }
 
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 0;
+            font-size: 14px;
+        }
+
         .card {
             background: var(--surface);
             border-radius: 22px;
@@ -202,6 +287,7 @@
             transform: translateY(18px);
             animation: rise 0.5s ease forwards;
             transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
         }
 
         .card:active {
@@ -262,6 +348,31 @@
             border-radius: 999px;
         }
 
+        .fav {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 2;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.92);
+            color: #9aa0c4;
+            font-size: 18px;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+            transition: transform 0.15s;
+        }
+
+        .fav.on {
+            color: var(--danger);
+        }
+
+        .fav:active {
+            transform: scale(0.85);
+        }
+
         .info {
             padding: 14px;
             display: flex;
@@ -281,15 +392,6 @@
             line-height: 1.7;
             color: var(--muted);
             flex: 1;
-        }
-
-        .rating {
-            font-size: 12px;
-            color: #f59e0b;
-        }
-
-        .rating span {
-            color: var(--muted);
         }
 
         .price {
@@ -419,7 +521,7 @@
             font-weight: bold;
         }
 
-        /* ---------- سبد خرید ---------- */
+        /* ---------- پنل‌های کشویی ---------- */
 
         .overlay {
             position: fixed;
@@ -442,7 +544,7 @@
             right: 0;
             bottom: 0;
             z-index: 31;
-            max-height: 82vh;
+            max-height: 86vh;
             overflow-y: auto;
             background: var(--surface);
             border-top-left-radius: 28px;
@@ -555,9 +657,66 @@
             box-shadow: 0 8px 18px rgba(109, 94, 252, 0.4);
         }
 
-        /* اصلاح: فقط دکمه‌ی سبد مخفی می‌شود، نه دکمه‌ی ثبت نهایی فرم */
+        /* فقط دکمه‌ی سبد مخفی می‌شود، نه دکمه‌ی ثبت نهایی فرم */
         body.in-telegram #checkout {
             display: none;
+        }
+
+        /* ---------- جزئیات محصول ---------- */
+
+        .detail-art {
+            position: relative;
+            height: 190px;
+            border-radius: 22px;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .detail-art::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .detail-art .emoji {
+            position: relative;
+            font-size: 84px;
+            filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.25));
+            animation: float 3.2s ease-in-out infinite;
+        }
+
+        .detail-body h2 {
+            margin: 16px 0 4px;
+            font-size: 20px;
+        }
+
+        .detail-cat {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .detail-desc {
+            margin: 12px 0;
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--muted);
+        }
+
+        .detail-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 14px;
+        }
+
+        .detail-price small {
+            font-size: 12px;
+            font-weight: normal;
+            color: var(--muted);
         }
 
         /* ---------- فرم اطلاعات مشتری ---------- */
@@ -666,9 +825,25 @@
         <div class="perk"><span>💬</span>پشتیبانی</div>
     </section>
 
+    <!-- جستجو و مرتب‌سازی -->
+    <div class="toolbar">
+        <div class="search">
+            <span>🔍</span>
+            <input id="search" type="search" placeholder="جستجوی محصول..." autocomplete="off">
+        </div>
+        <select id="sort" class="sort" aria-label="مرتب‌سازی">
+            <option value="default">پیش‌فرض</option>
+            <option value="cheap">ارزان‌ترین</option>
+            <option value="expensive">گران‌ترین</option>
+            <option value="fav">علاقه‌مندی‌ها اول</option>
+        </select>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
     <!-- محصولات -->
     <div class="section-title">
-        <h2>محصولات ویژه</h2>
+        <h2>محصولات</h2>
         <small id="products-count"></small>
     </div>
 
@@ -684,6 +859,14 @@
         </div>
         <div class="total" id="bar-total">۰ تومان</div>
     </div>
+
+    <!-- جزئیات محصول -->
+    <div class="overlay" id="detail-overlay"></div>
+
+    <section class="sheet" id="detail-sheet" aria-label="جزئیات محصول">
+        <div class="grabber"></div>
+        <div class="detail-body" id="detail-body"></div>
+    </section>
 
     <!-- سبد خرید -->
     <div class="overlay" id="overlay"></div>
@@ -785,42 +968,73 @@
         }
 
         // ---------- محصولات ----------
+        // لیست محصولات را ربات داخل آدرس (پارامتر p) می‌فرستد.
+        // اگر پارامتر نبود (مثلاً باز کردن مستقیم صفحه)، این لیست پیش‌فرض نمایش داده می‌شود.
 
-        const PRODUCTS = [
-            {
-                id: "headphone",
-                name: "هدفون بلوتوثی",
-                desc: "صدای شفاف و باس قوی، مناسب کار و سفر",
-                price: 1500000,
-                emoji: "🎧",
-                badge: "پرفروش",
-                rating: "۴٫۸",
-                votes: "۱۲۴",
-                grad: ["#6d5efc", "#a78bfa"]
-            },
-            {
-                id: "watch",
-                name: "ساعت هوشمند",
-                desc: "نمایشگر روشن، پایش فعالیت و اعلان‌ها",
-                price: 2200000,
-                emoji: "⌚",
-                badge: "جدید",
-                rating: "۴٫۶",
-                votes: "۸۷",
-                grad: ["#0ea5e9", "#38e1c9"]
-            },
-            {
-                id: "speaker",
-                name: "اسپیکر بلوتوثی",
-                desc: "قابل حمل، ضدآب و با صدای قدرتمند",
-                price: 950000,
-                emoji: "🔊",
-                badge: "محبوب",
-                rating: "۴٫۷",
-                votes: "۹۸",
-                grad: ["#f97316", "#fbbf24"]
-            }
+        const DEFAULTS = [
+            { i: "headphone", n: "هدفون بلوتوثی", p: 1500000, e: "🎧", c: "صوتی", d: "صدای شفاف و باس قوی، مناسب کار و سفر" },
+            { i: "earbuds", n: "ایرباد بی‌سیم", p: 1100000, e: "🎵", c: "صوتی", d: "کوچک، سبک و با کیفیت صدای عالی" },
+            { i: "speaker", n: "اسپیکر بلوتوثی", p: 950000, e: "🔊", c: "صوتی", d: "قابل حمل، ضدآب و با صدای قدرتمند" },
+            { i: "watch", n: "ساعت هوشمند", p: 2200000, e: "⌚", c: "پوشیدنی", d: "نمایشگر روشن، پایش فعالیت و اعلان‌ها" },
+            { i: "powerbank", n: "پاوربانک ۲۰ هزار", p: 780000, e: "🔋", c: "لوازم جانبی", d: "ظرفیت بالا با شارژ سریع" },
+            { i: "charger", n: "شارژر سریع ۶۵ وات", p: 540000, e: "⚡", c: "لوازم جانبی", d: "شارژ سریع برای گوشی و لپ‌تاپ" },
+            { i: "keyboard", n: "کیبورد مکانیکی", p: 1850000, e: "⌨️", c: "کامپیوتر", d: "سوئیچ مکانیکی و نورپردازی RGB" },
+            { i: "mouse", n: "ماوس بی‌سیم", p: 420000, e: "🖱️", c: "کامپیوتر", d: "دقیق، بی‌صدا و با باتری بادوام" },
+            { i: "webcam", n: "وب‌کم Full HD", p: 890000, e: "📷", c: "کامپیوتر", d: "تصویر شفاف برای جلسه و استریم" }
         ];
+
+        const DESC_FALLBACK = Object.fromEntries(DEFAULTS.map(x => [x.i, x.d]));
+
+        function decodeProducts() {
+            try {
+                const raw = new URLSearchParams(location.search).get("p");
+                if (!raw) return null;
+
+                let b64 = raw.replace(/-/g, "+").replace(/_/g, "/");
+                while (b64.length % 4) b64 += "=";
+
+                const bin = atob(b64);
+                const bytes = Uint8Array.from(bin, ch => ch.charCodeAt(0));
+                const arr = JSON.parse(new TextDecoder().decode(bytes));
+
+                if (!Array.isArray(arr)) return null;
+
+                const valid = arr.filter(x =>
+                    x && typeof x.i === "string" && typeof x.n === "string" &&
+                    typeof x.p === "number" && x.p > 0 &&
+                    typeof x.e === "string" && typeof x.c === "string"
+                );
+
+                return valid.length ? valid : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        const PALETTE = [
+            ["#6d5efc", "#a78bfa"],
+            ["#0ea5e9", "#38e1c9"],
+            ["#f97316", "#fbbf24"],
+            ["#ec4899", "#f472b6"],
+            ["#10b981", "#34d399"],
+            ["#ef4444", "#fb923c"]
+        ];
+
+        function gradFor(key) {
+            let h = 0;
+            for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+            return PALETTE[h % PALETTE.length];
+        }
+
+        const PRODUCTS = (decodeProducts() || DEFAULTS).map(x => ({
+            id: x.i,
+            name: x.n,
+            price: x.p,
+            emoji: x.e,
+            cat: x.c,
+            desc: x.d || DESC_FALLBACK[x.i] || "",
+            grad: gradFor(x.c)
+        }));
 
         const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
 
@@ -866,21 +1080,23 @@
             }
         }
 
-        // ---------- سبد ----------
+        // ---------- ذخیره‌سازی ----------
 
-        const STORAGE_KEY = "hamid-shop-cart-v2";
+        const CART_KEY = "hamid-shop-cart-v2";
+        const FAV_KEY = "hamid-shop-fav-v1";
 
         let cart = {};
+        let favs = new Set();
 
         function saveCart() {
             try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+                localStorage.setItem(CART_KEY, JSON.stringify(cart));
             } catch (e) {}
         }
 
         function loadCart() {
             try {
-                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+                const saved = JSON.parse(localStorage.getItem(CART_KEY));
 
                 if (saved && typeof saved === "object") {
                     Object.keys(saved).forEach(id => {
@@ -890,6 +1106,23 @@
                         }
                     });
                 }
+            } catch (e) {}
+        }
+
+        function loadFavs() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(FAV_KEY));
+                if (Array.isArray(saved)) {
+                    saved.forEach(id => {
+                        if (byId[id]) favs.add(id);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        function saveFavs() {
+            try {
+                localStorage.setItem(FAV_KEY, JSON.stringify([...favs]));
             } catch (e) {}
         }
 
@@ -918,6 +1151,38 @@
             updateUI();
         }
 
+        // ---------- علاقه‌مندی‌ها ----------
+
+        function makeFavButton(id) {
+            const btn = el("button", "fav" + (favs.has(id) ? " on" : ""), favs.has(id) ? "♥" : "♡");
+            btn.dataset.fav = id;
+            btn.setAttribute("aria-label", "علاقه‌مندی");
+
+            btn.addEventListener("click", e => {
+                e.stopPropagation();
+                toggleFav(id);
+            });
+
+            return btn;
+        }
+
+        function toggleFav(id) {
+            if (favs.has(id)) {
+                favs.delete(id);
+            } else {
+                favs.add(id);
+            }
+
+            saveFavs();
+            haptic("light");
+
+            document.querySelectorAll('[data-fav="' + id + '"]').forEach(btn => {
+                const on = favs.has(id);
+                btn.classList.toggle("on", on);
+                btn.textContent = on ? "♥" : "♡";
+            });
+        }
+
         // ---------- کنترل تعداد ----------
 
         function makeStepper(id) {
@@ -929,23 +1194,104 @@
             plus.setAttribute("aria-label", "افزایش");
             minus.setAttribute("aria-label", "کاهش");
 
-            plus.addEventListener("click", () => changeQty(id, 1));
-            minus.addEventListener("click", () => changeQty(id, -1));
+            plus.addEventListener("click", e => {
+                e.stopPropagation();
+                changeQty(id, 1);
+            });
+
+            minus.addEventListener("click", e => {
+                e.stopPropagation();
+                changeQty(id, -1);
+            });
 
             box.append(plus, qty, minus);
             return box;
         }
 
+        function fillActions(box, p) {
+            box.replaceChildren();
+
+            if (cart[p.id]) {
+                box.appendChild(makeStepper(p.id));
+            } else {
+                const btn = el("button", "add-btn", "افزودن به سبد");
+
+                btn.addEventListener("click", e => {
+                    e.stopPropagation();
+                    changeQty(p.id, 1);
+                    toast(p.emoji + " " + p.name + " به سبد اضافه شد");
+                });
+
+                box.appendChild(btn);
+            }
+        }
+
+        // ---------- فیلتر و مرتب‌سازی ----------
+
+        let activeCat = "همه";
+        let searchText = "";
+        let sortMode = "default";
+
+        function visibleProducts() {
+            const q = searchText.trim().toLowerCase();
+
+            let list = PRODUCTS.filter(p => {
+                if (activeCat !== "همه" && p.cat !== activeCat) return false;
+                if (q && !(p.name + " " + p.cat + " " + p.desc).toLowerCase().includes(q)) return false;
+                return true;
+            });
+
+            if (sortMode === "cheap") {
+                list = list.slice().sort((a, b) => a.price - b.price);
+            } else if (sortMode === "expensive") {
+                list = list.slice().sort((a, b) => b.price - a.price);
+            } else if (sortMode === "fav") {
+                list = list.slice().sort((a, b) => (favs.has(b.id) ? 1 : 0) - (favs.has(a.id) ? 1 : 0));
+            }
+
+            return list;
+        }
+
+        function renderChips() {
+            const box = $("chips");
+            box.replaceChildren();
+
+            const cats = ["همه", ...new Set(PRODUCTS.map(p => p.cat))];
+
+            cats.forEach(cat => {
+                const chip = el("button", "chip" + (cat === activeCat ? " active" : ""), cat);
+
+                chip.addEventListener("click", () => {
+                    activeCat = cat;
+                    renderChips();
+                    renderProducts();
+                });
+
+                box.appendChild(chip);
+            });
+        }
+
         // ---------- محصولات ----------
 
-        const actionBoxes = {};
+        let actionBoxes = {};
 
         function renderProducts() {
             const grid = $("products");
+            grid.replaceChildren();
+            actionBoxes = {};
 
-            PRODUCTS.forEach((p, i) => {
+            const list = visibleProducts();
+
+            $("products-count").textContent = fa(list.length) + " کالا";
+
+            if (list.length === 0) {
+                grid.appendChild(el("div", "no-results", "محصولی پیدا نشد 🔍"));
+                return;
+            }
+
+            list.forEach((p, i) => {
                 const card = el("article", "card");
-                card.style.animationDelay = (i * 90) + "ms";
+                card.style.animationDelay = (Math.min(i, 8) * 70) + "ms";
 
                 const art = el("div", "art");
                 art.style.background =
@@ -953,54 +1299,90 @@
 
                 art.append(
                     el("span", "emoji", p.emoji),
-                    el("span", "badge", p.badge)
+                    el("span", "badge", p.cat),
+                    makeFavButton(p.id)
                 );
 
                 const info = el("div", "info");
-
-                const rating = el("div", "rating", "★ " + p.rating + " ");
-                rating.append(el("span", "", "(" + p.votes + ")"));
 
                 const price = el("div", "price", fa(p.price) + " ");
                 price.append(el("small", "", "تومان"));
 
                 const actions = el("div", "actions");
                 actionBoxes[p.id] = actions;
+                fillActions(actions, p);
 
                 info.append(
                     el("h3", "", p.name),
-                    rating,
                     el("p", "desc", p.desc),
                     price,
                     actions
                 );
 
                 card.append(art, info);
+
+                card.addEventListener("click", () => openDetail(p.id));
+
                 grid.appendChild(card);
             });
-
-            $("products-count").textContent = fa(PRODUCTS.length) + " کالا";
         }
 
         function renderActions() {
-            PRODUCTS.forEach(p => {
-                const box = actionBoxes[p.id];
-                box.replaceChildren();
-
-                if (cart[p.id]) {
-                    box.appendChild(makeStepper(p.id));
-                } else {
-                    const btn = el("button", "add-btn", "افزودن به سبد");
-
-                    btn.addEventListener("click", () => {
-                        changeQty(p.id, 1);
-                        toast(p.emoji + " " + p.name + " به سبد اضافه شد");
-                    });
-
-                    box.appendChild(btn);
-                }
+            Object.keys(actionBoxes).forEach(id => {
+                fillActions(actionBoxes[id], byId[id]);
             });
+
+            if (detailId && $("detail-sheet").classList.contains("open")) {
+                const box = $("detail-actions");
+                if (box) fillActions(box, byId[detailId]);
+            }
         }
+
+        // ---------- جزئیات محصول ----------
+
+        let detailId = null;
+
+        function openDetail(id) {
+            const p = byId[id];
+            if (!p) return;
+
+            detailId = id;
+
+            const body = $("detail-body");
+            body.replaceChildren();
+
+            const art = el("div", "detail-art");
+            art.style.background =
+                "linear-gradient(135deg, " + p.grad[0] + ", " + p.grad[1] + ")";
+            art.append(el("span", "emoji", p.emoji), makeFavButton(p.id));
+
+            const price = el("div", "detail-price", fa(p.price) + " ");
+            price.append(el("small", "", "تومان"));
+
+            const actions = el("div", "actions");
+            actions.id = "detail-actions";
+            fillActions(actions, p);
+
+            body.append(
+                art,
+                el("h2", "", p.name),
+                el("div", "detail-cat", "دسته: " + p.cat),
+                el("p", "detail-desc", p.desc || "توضیحاتی ثبت نشده است."),
+                price,
+                actions
+            );
+
+            $("detail-overlay").classList.add("open");
+            $("detail-sheet").classList.add("open");
+        }
+
+        function closeDetail() {
+            detailId = null;
+            $("detail-overlay").classList.remove("open");
+            $("detail-sheet").classList.remove("open");
+        }
+
+        $("detail-overlay").addEventListener("click", closeDetail);
 
         // ---------- نمایش سبد ----------
 
@@ -1085,6 +1467,7 @@
         // ---------- باز و بسته کردن سبد ----------
 
         function openSheet() {
+            closeDetail();
             $("overlay").classList.add("open");
             $("sheet").classList.add("open");
         }
@@ -1121,6 +1504,7 @@
             }
 
             closeSheet();
+            closeDetail();
 
             $("customer-overlay").classList.add("open");
             $("customer-sheet").classList.add("open");
@@ -1207,8 +1591,7 @@
                 total: total
             };
 
-            // اصلاح: سبد و فرم قبل از ارسال پاک می‌شوند
-            // (چون sendData برنامه را می‌بندد)
+            // سبد و فرم قبل از ارسال پاک می‌شوند (چون sendData برنامه را می‌بندد)
             cart = {};
             $("customer-name").value = "";
             $("customer-phone").value = "";
@@ -1228,7 +1611,7 @@
         $("checkout").addEventListener("click", openCustomerForm);
         $("final-submit").addEventListener("click", createOrder);
 
-        // اصلاح: دکمه اصلی تلگرام بسته به مرحله رفتار می‌کند
+        // دکمه اصلی تلگرام بسته به مرحله رفتار می‌کند
         if (inTelegram) {
             tg.MainButton.onClick(() => {
                 if (isCustomerFormOpen()) {
@@ -1239,9 +1622,22 @@
             });
         }
 
+        // جستجو و مرتب‌سازی
+        $("search").addEventListener("input", e => {
+            searchText = e.target.value;
+            renderProducts();
+        });
+
+        $("sort").addEventListener("change", e => {
+            sortMode = e.target.value;
+            renderProducts();
+        });
+
         // ---------- شروع ----------
 
         loadCart();
+        loadFavs();
+        renderChips();
         renderProducts();
         updateUI();
 
